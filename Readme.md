@@ -1,22 +1,21 @@
-Pencil Kata
-
-From Dan Wiebe
+**Pencil Kata**
+_From Dan Wiebe_
 
 The purpose of the Pencil Kata is to write code to simulate, first coarsely and then more faithfully, an ordinary graphite pencil. This kata was composed by a group of prisoners at the Marion Correctional Institution in Marion, OH as a way to teach test-driven developmentto one another.
 
-I want to be able to create a Pencil object that, when instructed to write a string of text, will faithfully return the string it was to write.
-I want to be able to specify a pointDurability parameter when creating a Pencil object. When pointDurability is low, the Pencil will be able to write only a limited number of characters before it goes dull; after it goes dull, every character it is directed to write will appear as a space. A Pencil created with a high pointDurability will still go dull, but not as fast.
-I want to be able to sharpen a Pencil. When a Pencil is sharpened, it regains its initial pointDurability and can write more characters before it goes dull again.
-I also want to be able to specify a length parameter when creating a Pencil object. Pencils of short length will only be sharpenable a small number of times. Once a Pencil has been sharpened that number of times, further sharpening it will no longer restore its pointDurability, and it must be discarded and replaced. Pencils of great length can be sharpened more times.
-Writing spaces, tabs, and newlines expends no graphite; therefore these characters should not be considered in pointDurability.
-In general, writing capital letters expends more graphite than writing lowercase letters. Adjust the Pencil to take this into account.
-At least for the letters of the alphabet, make a reasonable estimation of the proportionate amount of graphite that is expended to write upper- and lowercase versions of each one, and figure that into the simulation.
-Come up with your own ideas to make the simulation even more faithful to reality.
-Bonus: Using inheritance, composition or some other OO pattern, implement an ink pen.
+- I want to be able to create a Pencil object that, when instructed to write a string of text, will faithfully return the string it was to write.
+- I want to be able to specify a pointDurability parameter when creating a Pencil object. When pointDurability is low, the Pencil will be able to write only a limited number of characters before it goes dull; after it goes dull, every character it is directed to write will appear as a space. A Pencil created with a high pointDurability will still go dull, but not as fast.
+- I want to be able to sharpen a Pencil. When a Pencil is sharpened, it regains its initial pointDurability and can write more characters before it goes dull again.
+- I also want to be able to specify a length parameter when creating a Pencil object. Pencils of short length will only be sharpenable a small number of times. Once a Pencil has been sharpened that number of times, further sharpening it will no longer restore its pointDurability, and it must be discarded and replaced. Pencils of great length can be sharpened more times.
+- Writing spaces, tabs, and newlines expends no graphite; therefore these characters should not be considered in pointDurability.
+- In general, writing capital letters expends more graphite than writing lowercase letters. Adjust the Pencil to take this into account.
+- At least for the letters of the alphabet, make a reasonable estimation of the proportionate amount of graphite that is expended to write upper- and lowercase versions of each one, and figure that into the simulation.
+- Come up with your own ideas to make the simulation even more faithful to reality.
+- **Bonus:** Using inheritance, composition or some other OO pattern, implement an ink pen.
 
-An Attempt at User Stories:
+**An Attempt at User Stories:**
 
-Write
+**Write**
 
 As a writer
 I want to be able use a pencil to write text on a sheet of paper
@@ -26,7 +25,7 @@ When the pencil is instructed to write a string of text on a sheet of paper, the
 
 Text written by the pencil should always be appended to existing text on the paper. Thus, given a piece of paper with the text "She sells sea shells", when a pencil is instructed to write " down by the sea shore" on the paper, the paper will then contain the entire string.
 
-Point Degradation
+**Point Degradation**
 
 As a pencil manufacturer
 I want writing to cause a pencil point to go dull
@@ -38,7 +37,7 @@ Writing spaces and newlines expends no graphite; therefore these characters shou
 
 Lowercase letters should degrade the pencil point by a value of one, and capital letters should degrade the point by two. Hence when a pencil with a point durability of four is instructed to write the string "text", the paper will contain the entire string. But if a pencil with point durability of four is instructed to write the string "Text", the paper will only show "Tex ".
 
-Sharpen
+**Sharpen**
 
 As a writer
 I want to be able to sharpen my pencil
@@ -48,7 +47,7 @@ When a pencil is sharpened, it regains its initial point durability and can writ
 
 A pencil should also be created with an initial length value. Pencils of short length will only be sharpenable a small number of times while pencils of great length can be sharpened more times. The pencil's length is reduced by one each time it is sharpened. When a pencil's length is zero, then sharpening it no longer restores its point durabliity.
 
-Erase
+**Erase**
 
 As a writer
 I want to be able to erase previously written text
@@ -63,7 +62,7 @@ when the string "chuck" is erased, the paper should read:
 and if the string "chuck" is erased again, the paper should read:
 "How much wood would a woodchuck chuck if a wood       could       wood?"
 
-Eraser Degradation
+**Eraser Degradation**
 
 As a pencil manufacturer
 I want a pencil eraser to eventually wear out
@@ -73,7 +72,7 @@ When a pencil is created, it can be provided with a value for eraser durability.
 
 Thus if a pencil's eraser has remaining durability of three, and it is instructed to erase the word "Bill" from "Buffalo Bill", then the text remaining on the paper is "Buffalo B   ".
 
-Editing
+**Editing**
 
 As a writer
 I want to be able edit previously written text
