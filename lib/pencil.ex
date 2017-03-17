@@ -1,36 +1,21 @@
 defmodule Pencil do
   @moduledoc false
 
-  def start_link do
-    Agent.start_link(fn -> %{} end)
-  end
-
   def new(durability, length \\ 1) do
-    {:ok, pid} = Pencil.start_link
-    Pencil.put(pid, "durability", durability)
-    Pencil.put(pid, "max_durability", durability)
-    Pencil.put(pid, "length", length)
-    pid
+    {:ok, pencil} = Agent.start_link fn -> %{durability: durability, max_durability: durability, length: length} end
+    pencil
   end
 
-  def get(pid, key) do
-    Agent.get(pid, &Map.get(&1, key))
-  end
-
-  def put(pid, key, value) do
-    Agent.update(pid, &Map.put(&1, key, value))
-  end
-
-  def write(pid, text) do
-    durability = get_durability(pid)
-
-    {remaining_durability, written_text} = write_characters(durability, String.codepoints(text))
-    set_durability(pid, remaining_durability)
-    written_text
+  def write(pencil, paper, text) do
+    Agent.update pencil, fn state ->
+      {remaining_durability, written_text} = write_characters state[:durability], String.codepoints(text)
+      Paper.write(paper, written_text)
+      %{state | durability: remaining_durability}
+    end
   end
 
   def write_characters(durability, characters) do
-    write_characters(durability, characters, "")
+    write_characters durability, characters, ""
   end
 
   def write_characters(durability, [head | tail], written_text) do
@@ -47,31 +32,20 @@ defmodule Pencil do
     {durability, written_text}
   end
 
-  def sharpen(pid) do
-    new_length = get_length(pid) - 1
-    if (new_length >= 0) do
-      set_durability(pid, get_max_durability(pid))
-      set_length(pid, new_length)
+  def sharpen(pencil) do
+    Agent.update pencil, fn state ->
+      cond do
+        state[:length] > 0 -> %{state | durability: state[:max_durability], length: state[:length] - 1}
+        true               -> state
+      end
     end
   end
 
-  def get_durability(pid) do
-    Pencil.get(pid, "durability")
+  def get_durability(pencil) do
+    Agent.get pencil, fn state -> state[:durability] end
   end
 
-  def get_max_durability(pid) do
-    Pencil.get(pid, "max_durability")
-  end
-
-  def set_durability(pid, durability) do
-    Pencil.put(pid, "durability", durability)
-  end
-
-  def get_length(pid) do
-    Pencil.get(pid, "length")
-  end
-
-  def set_length(pid, length) do
-    Pencil.put(pid, "length", length)
+  def get_length(pencil) do
+    Agent.get pencil, fn state -> state[:length] end
   end
 end
