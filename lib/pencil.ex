@@ -9,7 +9,7 @@ defmodule Pencil do
   def write(pencil, paper, text) do
     Agent.update pencil, fn state ->
       {remaining_durability, written_text} = write_characters state[:durability], String.codepoints(text)
-      Paper.write(paper, written_text)
+      Paper.write paper, written_text
       %{state | durability: remaining_durability}
     end
   end
@@ -20,11 +20,11 @@ defmodule Pencil do
 
   def write_characters(durability, [head | tail], written_text) do
     cond do
-      head =~ ~r/\s/                       -> write_characters(durability, tail, written_text <> head)
-      head =~ ~r/[A-Z]/ && durability > 1  -> write_characters(durability - 2, tail, written_text <> head)
-      head =~ ~r/[A-Z]/ && durability <= 1 -> write_characters(0, tail, written_text <> " ")
-      durability > 0                       -> write_characters(durability - 1, tail, written_text <> head)
-      true                                 -> write_characters(0, tail, written_text <> " ")
+      head =~ ~r/\s/                       -> write_characters durability, tail, written_text <> head
+      head =~ ~r/[A-Z]/ && durability > 1  -> write_characters durability - 2, tail, written_text <> head
+      head =~ ~r/[A-Z]/ && durability <= 1 -> write_characters 0, tail, written_text <> " "
+      durability > 0                       -> write_characters durability - 1, tail, written_text <> head
+      true                                 -> write_characters 0, tail, written_text <> " "
     end
   end
 
